@@ -1,45 +1,58 @@
 <!DOCTYPE html>
 <html lang="en" dir="ltr">
-  <head>
-    <meta charset="utf-8">
-    <title>BMI Calculator</title>
-  </head>
-  <body>
-    <h1>BMI Calculator</h1>
-    <form  action="/BMI" method="post">
-        <h7>What is your height: </h7>
-        <input type="text" name="height" placeholder="Height (in meters)">
-        <br>
-        <h7>What is your weight: </h7>
-        <input type="text" name="weight" placeholder="Weight (in kilograms)">
-        <br>
-        <button type="submit" name="submit">Calculate BMI</button>
-    </form>
 
-    <h1>BMR Calcultor</h1>
-    <form  action="/" method="post">
-        <h7>What's your age: </h7>
-        <input type="text" name="ages" placeholder="ages">
-        <br>
-        <h7>How many times do you exercise per week : </h7>
-        <input type="text" name="amount of exercise" placeholder="Amount of Exercise: (1-8)">
-        <br>
-        <button type="submit" name="submit">Calculate BMR</button>
-      </form>hi baby
+<head>
+  <meta charset="utf-8">
+  <title>BMI Calculator</title>
+</head>
 
-    <h1>Meal Plan generate</h1>
-    <form  action="/" method="post">
-        <h7>What is the caloric target for one day? The meal plan generator will try to get as close as possible to that goal </h7>
-        <input type="text" name="calories" placeholder="calories">
-        <br>
-        <h7>Enter a diet that the meal plan has to adhere to : </h7>
-        <input type="text" name="amount of exercise" placeholder='e.g. "vegetarian", "vegan", "paleo", etc'>
-        <br>
-        <h7>A comma-separated list of allergens or ingredients that must be excluded: </h7>
-        <input type="text" name="amount of exercise" placeholder="fish">
-        <br>
-        <button type="submit" name="submit">Calculate BMR</button>
-      </form>
+<body>
+  <h1>BMI Calculator</h1>
+  <form action="/BMI" method="post">
+    <h7>What is your height: </h7>
+    <input type="text" name="height" placeholder="Height (in cm)">
+    <br>
+    <h7>What is your weight: </h7>
+    <input type="text" name="weight" placeholder="Weight (in kg)">
+    <br>
+    <button type="submit" name="submit">Calculate BMI</button>
+  </form>
 
-  </body>
+  <h1>BMR Calcultor</h1>
+  <form action="/BMR" method="post">
+    <h7>What is your height: </h7>
+    <input type="text" name="height" placeholder="Height (in cm)">
+    <br>
+    <h7>What is your weight: </h7>
+    <input type="text" name="weight" placeholder="Weight (in kg)">
+    <br>
+    <h7>What's your age: </h7>
+    <input type="text" name="age" placeholder="ages">
+    <br>
+    <h7>What's your gender: </h7>
+    <input type="text" name="gender" placeholder="gender">
+    <br>
+    <h7>How many times do you exercise per week : </h7>
+    <input type="text" name="exercise" placeholder="Level: A, B, C, D, E">
+    <br>
+    <button type="submit" name="submit">Calculate BMR</button>
+  </form>
+
+  <h1>Meal Plan generate</h1>
+  <form action="/generate" method="post">
+    <h7>What is the caloric target for one day? The meal plan generator will try to get as close as possible to that
+      goal </h7>
+    <input type="text" name="targetCalories" placeholder="calories">
+    <br>
+    <h7>Enter a diet that the meal plan has to adhere to : </h7>
+    <input type="text" name="diet" placeholder='e.g. "vegetarian", "vegan", "paleo", etc'>
+    <br>
+    <h7>A comma-separated list of allergens or ingredients that must be excluded: </h7>
+    <input type="text" name="excludes" placeholder="fish">
+    <br>
+    <button type="submit" name="submit">Generate Meal Plan</button>
+  </form>
+
+</body>
+
 </html>
