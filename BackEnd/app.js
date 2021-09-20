@@ -1,9 +1,12 @@
 const express = require("express");
 const session = require("express-session");
 const bodyParser = require("body-parser");
+const cors = require("cors");
 const mysql = require("mysql");
 
 const app = express();
+
+app.use(express.json());
 
 // Initialize middlewares
 app.use(bodyParser.urlencoded({
@@ -14,6 +17,7 @@ app.use(session({
   resave: false,
   saveUninitialized: false
 }));
+app.use(cors());
 
 var con = mysql.createConnection({
     host: "localhost",
@@ -53,7 +57,7 @@ app.get("/homepage/:username", function(req, res){
 
 
 // Api: Login
-app.post("/login", function(req, res){
+app.post("/api/login", function(req, res){
   let username = req.body.username;
   let password = req.body.password;
   
@@ -66,9 +70,11 @@ app.post("/login", function(req, res){
     if (result.length) {
       req.session.isAuth = true;
       req.session.username = username;
-      res.redirect(`/homepage/${username}`);
+      res.status(200).send("OK");
     } else {
-      res.send("<h1>Fuck off</h1>");
+      req.session.isAuth = false;
+      req.session.username = null;
+      res.status(401).send("Invalid Username or Password");
     }
   });
 });
@@ -88,7 +94,10 @@ app.post("/api/signup", function (req, res) {
     if (err) {
       throw err;
     } else if (result.length) {
-      res.send("Username is already taken");
+      req.session.isAuth = false;
+      req.session.username = null;
+      res.status(406).send("Username is already taken");
+      return;
     }
   })
 
@@ -98,9 +107,10 @@ app.post("/api/signup", function (req, res) {
     if (err) {
       throw err;
     } else {
+      console.log("Running");
       req.session.isAuth = true;
       req.session.username = username;
-      res.redirect(`/homepage/${username}`);
+      res.sendStatus(200);
     }
   })
 })
@@ -127,25 +137,25 @@ app.post("/BMI", function(req, res){
 });
 
 // Api: BMR Calculator
-app.post("/BMI", function(req, res){
-  auth(req, res);
+// app.post("/BMI", function(req, res){
+//   auth(req, res);
   
-  //parseFloat converts a floating point number
-  var weight = parseFloat(req.body.weight);
-  var height = parseFloat(req.body.height);
-  var bmi = weight/(height * height);
-  var interpretation;
-  if(bmi < 18.5){
-        interpretation = "Your BMI is " + bmi + ", so you are underweight.";
-    }
-    if((bmi >= 18.5) && (bmi <= 24.9)){
-        interpretation = "Your BMI is " + bmi + ", so you have a normal weight.";
-    }
-    if(bmi > 24.9){
-        interpretation = "Your BMI is " + bmi + ", so you are overweight.";
-    }
-    res.send(interpretation);
-});
+//   //parseFloat converts a floating point number
+//   var weight = parseFloat(req.body.weight);
+//   var height = parseFloat(req.body.height);
+//   var bmi = weight/(height * height);
+//   var interpretation;
+//   if(bmi < 18.5){
+//         interpretation = "Your BMI is " + bmi + ", so you are underweight.";
+//     }
+//     if((bmi >= 18.5) && (bmi <= 24.9)){
+//         interpretation = "Your BMI is " + bmi + ", so you have a normal weight.";
+//     }
+//     if(bmi > 24.9){
+//         interpretation = "Your BMI is " + bmi + ", so you are overweight.";
+//     }
+//     res.send(interpretation);
+// });
 
 
 // Api: Submit(Edit) Personal Info
@@ -258,6 +268,6 @@ app.get("/api/mealplan", function (req, res) {
 // Api: Calorie / 步数 record
 
 
-app.listen(3000, function(){
-  console.log("Server running on port 3000");
+app.listen(3001, function(){
+  console.log("Server running on port 3001");
 });
